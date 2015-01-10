@@ -4,5 +4,7 @@
   "dependencies": {
     "react": "~0.5.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "lodash": "~2.4.1"
+  }
 }
