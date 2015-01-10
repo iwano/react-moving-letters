@@ -26,7 +26,7 @@ var Letter = React.createClass({displayName: 'Letter',
 
   render: function() {
     return (
-      React.DOM.span( {style:{left: this.state.left}}, this.props.name)
+      React.DOM.span( {style:{left: this.state.left, top: this.props.row}}, this.props.name)
       )
   }
 });
@@ -42,6 +42,7 @@ var MovingLetters = React.createClass({displayName: 'MovingLetters',
   },
 
   letters: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
+  rows: [10, 45, 80],
 
   componentWillUnmount: function() {
     this.stopInterval();
@@ -57,8 +58,9 @@ var MovingLetters = React.createClass({displayName: 'MovingLetters',
 
   pushLetter: function() {
     var letters = this.state.movingLetters,
-        letter = this.letters[Math.floor(Math.random() * (26 - 0))];
-    letters.push({name: letter, cleared: false});
+        letter = this.letters[Math.floor(Math.random() * (26 - 0))],
+        row = Math.floor(Math.random() * (3 - 0));
+    letters.push({name: letter, cleared: false, row: this.rows[row]});
     this.setState({movingLetters: letters});
   },
 
@@ -126,7 +128,7 @@ var MovingLetters = React.createClass({displayName: 'MovingLetters',
             self.state.movingLetters.map(function(letter) {
               if (!letter.cleared) {
                 return (
-                  Letter( {name:letter.name, cleared:letter.cleared, onFinish:self.stopGame})
+                  Letter( {name:letter.name, cleared:letter.cleared, onFinish:self.stopGame, row:letter.row})
                   )
               }
             })
