@@ -76,13 +76,21 @@ var MovingLetters = React.createClass({
   updateScore: function(value) {
     var score = this.state.score;
     if (score + value > 0 && (score + value) % 20 === 0) {
-      var letterInterval = 1000 - (((this.state.score + value) / 20) * 100);
-      this.setState({letterInterval: letterInterval, score: score + value});
+      this.setState({letterInterval: this.calculateNewInterval(value), score: score + value});
       this.stopInterval(this.interval);
       this.startInterval();
     } else {
       this.setState({score: score + value});
     }
+  },
+
+  calculateNewInterval: function(value) {
+    var quotient = (this.state.score + value) / 20,
+        result = 1000;
+    for (var i = 1; i <= quotient; i++) {
+      result = result - 10 * result / 100;
+    }
+    return result;
   },
 
   handleKeyPress: function(e) {
