@@ -31,23 +31,13 @@ var Letter = React.createClass({
   }
 });
 
-var MovingLettersContainer = React.createClass({
-  render: function() {
-    return (
-      <div className="moving-letters-container"/>
-      )
-  }
-});
-
-
-
 var MovingLetters = React.createClass({
   getInitialState: function() {
     return {
       letterInterval: 1000,
+      gameState: 'stopped',
       movingLetters: [],
-      score: 0,
-      gameState: 'stopped'
+      score: 0
     };
   },
 
@@ -61,31 +51,57 @@ var MovingLetters = React.createClass({
     clearInterval(this.interval);
   },
 
+  startInterval: function() {
+    this.interval = setInterval(this.pushLetter, this.state.letterInterval);
+  },
+
   pushLetter: function() {
     var letters = this.state.movingLetters,
         letter = this.letters[Math.floor(Math.random() * (26 - 0))];
-    letters.push(letter);
+    letters.push({name: letter, cleared: false});
     this.setState({movingLetters: letters});
-    console.log('new letter ** ' + letter + ' **');
   },
 
   startGame: function() {
     this.refs.input.getDOMNode().focus();
     this.setState({gameState: 'on', score: 0});
-    this.interval = setInterval(this.pushLetter, this.state.letterInterval);
+    this.startInterval();
   },
 
   stopGame: function() {
     clearInterval(this.interval);
-    this.setState({movingLetters: [], gameState: 'stopped'});
+    this.setState({movingLetters: [], gameState: 'stopped', letterInterval: 1000});
+  },
+
+  updateScore: function(value) {
+    var score = this.state.score;
+    if (score + value > 0 && (score + value) % 20 === 0) {
+      var letterInterval = 1000 - (((this.state.score + value) / 20) * 100);
+      this.setState({letterInterval: letterInterval, score: score + value});
+      this.stopInterval(this.interval);
+      this.startInterval();
+    } else {
+      this.setState({score: score + value});
+    }
   },
 
   handleKeyPress: function(e) {
     var key = e.keyCode || e.which;
     if (key === 27) {
-      this.stopGame()
+      this.stopGame();
     }
-    console.log(e.which);
+
+    if (key >= 65 && key <= 90) {
+      var letters = this.state.movingLetters,
+          letterPressed = this.letters[key - 65],
+          letter = _.findWhere(letters, {name: letterPressed, cleared: false});
+      if (letter) {
+        letter.cleared = true;
+        this.updateScore(1);
+      } else {
+        this.updateScore(-1);
+      }
+    }
   },
 
   render: function() {
@@ -100,15 +116,18 @@ var MovingLetters = React.createClass({
         <div className="moving-letters-container">
           {
             self.state.movingLetters.map(function(letter) {
-              return (
-                <Letter name={letter} onFinish={self.stopGame}/>
-                )
+              if (!letter.cleared) {
+                return (
+                  <Letter name={letter.name} cleared={letter.cleared} onFinish={self.stopGame}/>
+                  )
+              }
             })
           }
         </div>
-        <textarea id="key_tracker" ref="input" onKeyDown={this.handleKeyPress}/>
         <button id="start_game" ref="start" className={buttonClasses} onClick={this.startGame}>Start</button>
         <h1>Score: {this.state.score}</h1>
+        <h2>Speed: {this.state.letterInterval}ms</h2>
+        <textarea id="key_tracker" ref="input" onKeyDown={this.handleKeyPress}/>
       </div>
       )
   }
