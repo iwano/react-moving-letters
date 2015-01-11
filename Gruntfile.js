@@ -141,19 +141,6 @@ module.exports = function (grunt) {
             ]
         },
 
-        
-        // Mocha testing framework configuration options
-        mocha: {
-            all: {
-                options: {
-                    run: true,
-                    urls: ['http://<%= connect.test.options.hostname %>:<%= connect.test.options.port %>/index.html']
-                }
-            }
-        },
-
-        
-
         // Add vendor prefixed styles
         autoprefixer: {
             options: {
@@ -333,6 +320,12 @@ module.exports = function (grunt) {
                 'svgmin',
                 'htmlmin'
             ]
+        },
+
+        karma: {
+          unit: {
+            configFile: 'karma.conf.js'
+          }
         }
     });
 
@@ -358,7 +351,7 @@ module.exports = function (grunt) {
         'concurrent:test',
         'autoprefixer',
         'connect:test',
-        'mocha'
+        'karma:unit'
     ]);
 
     grunt.registerTask('build', [
