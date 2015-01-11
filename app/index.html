@@ -35,6 +35,12 @@
         
         <!-- build:js scripts/moving_letters.js -->
         <script src="scripts/moving_letters.js"></script>
+        <script>
+          React.renderComponent(
+              React.createElement(MovingLetters, null),
+              document.getElementById('app')
+          );
+        </script>
         <!-- endbuild -->
 
 

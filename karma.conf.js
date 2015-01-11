@@ -17,7 +17,7 @@ module.exports = function(config) {
     files: [
       'app/bower_components/react/react-with-addons.js',
       'app/bower_components/lodash/dist/lodash.js',
-      'node_modules/requirejs/require.js',
+      'app/scripts/*.js',
       'test/spec/*.js'
     ],
 

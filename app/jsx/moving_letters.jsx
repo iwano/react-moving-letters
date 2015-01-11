@@ -143,7 +143,3 @@ var MovingLetters = React.createClass({
   }
 });
 
-React.renderComponent(
-  <MovingLetters />,
-  document.getElementById('app')
-);
