@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 'use strict';
-var Letter = React.createClass({displayName: 'Letter',
+var Letter = React.createClass({displayName: "Letter",
   getInitialState: function() {
     return {
       left: 0,
@@ -26,12 +26,12 @@ var Letter = React.createClass({displayName: 'Letter',
 
   render: function() {
     return (
-      React.DOM.span( {style:{left: this.state.left, top: this.props.row}}, this.props.name)
+      React.createElement("span", {style: {left: this.state.left, top: this.props.row}}, this.props.name)
       )
   }
 });
 
-var MovingLetters = React.createClass({displayName: 'MovingLetters',
+var MovingLetters = React.createClass({displayName: "MovingLetters",
   getInitialState: function() {
     return {
       letterInterval: 1000,
@@ -121,29 +121,29 @@ var MovingLetters = React.createClass({displayName: 'MovingLetters',
           'hidden': this.state.gameState == 'on'
         });
     return (
-      React.DOM.div(null, 
-        React.DOM.h1(null, "Moving Letters"),
-        React.DOM.div( {className:"moving-letters-container"}, 
+      React.createElement("div", null, 
+        React.createElement("h1", null, "Moving Letters"), 
+        React.createElement("div", {className: "moving-letters-container"}, 
           
             self.state.movingLetters.map(function(letter) {
               if (!letter.cleared) {
                 return (
-                  Letter( {name:letter.name, cleared:letter.cleared, onFinish:self.stopGame, row:letter.row})
+                  React.createElement(Letter, {name: letter.name, cleared: letter.cleared, onFinish: self.stopGame, row: letter.row})
                   )
               }
             })
           
-        ),
-        React.DOM.button( {id:"start_game", ref:"start", className:buttonClasses, onClick:this.startGame}, "Start"),
-        React.DOM.h1(null, "Score: ", this.state.score),
-        React.DOM.h2(null, "Speed: ", this.state.letterInterval,"ms"),
-        React.DOM.textarea( {id:"key_tracker", ref:"input", onKeyDown:this.handleKeyPress})
+        ), 
+        React.createElement("button", {id: "start_game", ref: "start", className: buttonClasses, onClick: this.startGame}, "Start"), 
+        React.createElement("h1", null, "Score: ", this.state.score), 
+        React.createElement("h2", null, "Speed: ", this.state.letterInterval, "ms"), 
+        React.createElement("textarea", {id: "key_tracker", ref: "input", onKeyDown: this.handleKeyPress})
       )
       )
   }
 });
 
 React.renderComponent(
-  MovingLetters(null ),
+  React.createElement(MovingLetters, null),
   document.getElementById('app')
 );

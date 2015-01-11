@@ -33,7 +33,7 @@ module.exports = function (grunt) {
                     ignoreMTime:  false // Default
                 },
                 files: {
-                    '<%= yeoman.app %>/scripts': '<%= yeoman.app %>/jsx'
+                    '<%= yeoman.app %>/scripts/moving_letters.js': '<%= yeoman.app %>/jsx/moving_letters.jsx'
                 }
             }
         },
