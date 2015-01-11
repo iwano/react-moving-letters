@@ -2,7 +2,7 @@
   "name": "moving-letters",
   "version": "0.0.0",
   "dependencies": {
-    "react": "~0.5.1"
+    "react": "~0.12.2"
   },
   "devDependencies": {
     "lodash": "~2.4.1"
