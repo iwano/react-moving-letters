@@ -25,9 +25,11 @@ var Letter = React.createClass({displayName: "Letter",
   },
 
   render: function() {
-    return (
-      React.createElement("span", {style: {left: this.state.left, top: this.props.row}}, this.props.name)
-      )
+    if (!this.props.cleared) {
+      return (
+        React.createElement("span", {style: {left: this.state.left, top: this.props.row}}, this.props.name)
+        )
+    }
   }
 });
 
@@ -126,11 +128,9 @@ var MovingLetters = React.createClass({displayName: "MovingLetters",
         React.createElement("div", {className: "moving-letters-container"}, 
           
             self.state.movingLetters.map(function(letter) {
-              if (!letter.cleared) {
-                return (
-                  React.createElement(Letter, {name: letter.name, cleared: letter.cleared, onFinish: self.stopGame, row: letter.row})
-                  )
-              }
+              return (
+                React.createElement(Letter, {name: letter.name, cleared: letter.cleared, onFinish: self.stopGame, row: letter.row})
+                )
             })
           
         ), 

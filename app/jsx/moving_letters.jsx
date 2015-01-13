@@ -25,9 +25,11 @@ var Letter = React.createClass({
   },
 
   render: function() {
-    return (
-      <span style={{left: this.state.left, top: this.props.row}}>{this.props.name}</span>
-      )
+    if (!this.props.cleared) {
+      return (
+        <span style={{left: this.state.left, top: this.props.row}}>{this.props.name}</span>
+        )
+    }
   }
 });
 
@@ -126,11 +128,9 @@ var MovingLetters = React.createClass({
         <div className="moving-letters-container">
           {
             self.state.movingLetters.map(function(letter) {
-              if (!letter.cleared) {
-                return (
-                  <Letter name={letter.name} cleared={letter.cleared} onFinish={self.stopGame} row={letter.row}/>
-                  )
-              }
+              return (
+                <Letter name={letter.name} cleared={letter.cleared} onFinish={self.stopGame} row={letter.row}/>
+                )
             })
           }
         </div>
