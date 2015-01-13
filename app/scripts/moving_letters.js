@@ -30,6 +30,7 @@ var Letter = React.createClass({displayName: "Letter",
         React.createElement("span", {style: {left: this.state.left, top: this.props.row}}, this.props.name)
         )
     }
+    return null;
   }
 });
 
